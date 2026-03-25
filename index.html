@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#050505" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Neon Tic-Tac-Toe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+
+    <header class="game-header">
+      <div class="logo-section">
+        <h1 class="glitch-text" data-text="NEON TAC TOE">NEON <span class="accent-cyan">TAC</span> TOE</h1>
+        <div class="logo-line"></div>
+      </div>
+      <div class="hud-stats">
+        <div class="hud-box hud-x">
+          <span class="hud-label">PLAYER X</span>
+          <span id="scoreX" class="hud-value">0</span>
+        </div>
+        <div class="hud-box hud-o">
+          <span class="hud-label">PLAYER O</span>
+          <span id="scoreO" class="hud-value">0</span>
+        </div>
+        <div class="hud-box hud-draw">
+          <span class="hud-label">DRAWS</span>
+          <span id="scoreDraw" class="hud-value">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="game-main">
+      <div class="game-panel">
+        <div class="mode-selector">
+          <button id="modePvP" class="mode-btn active" data-mode="pvp">
+            <span class="btn-icon">⬡</span> LOCAL
+          </button>
+          <button id="modeAI" class="mode-btn" data-mode="ai">
+            <span class="btn-icon">◈</span> VS AI
+          </button>
+        </div>
+
+        <div id="aiDifficultyPanel" class="difficulty-panel hidden">
+          <span class="diff-label">AI:</span>
+          <button class="diff-btn" data-level="easy">EASY</button>
+          <button class="diff-btn active" data-level="medium">MED</button>
+          <button class="diff-btn" data-level="hard">HARD</button>
+        </div>
+
+        <div class="turn-indicator">
+          <span class="turn-label">TURN:</span>
+          <span id="currentTurn" class="turn-value turn-x">X</span>
+        </div>
+
+        <div class="game-board" id="gameBoard">
+          <div class="cell" data-index="0"></div>
+          <div class="cell" data-index="1"></div>
+          <div class="cell" data-index="2"></div>
+          <div class="cell" data-index="3"></div>
+          <div class="cell" data-index="4"></div>
+          <div class="cell" data-index="5"></div>
+          <div class="cell" data-index="6"></div>
+          <div class="cell" data-index="7"></div>
+          <div class="cell" data-index="8"></div>
+          <div class="win-line" id="winLine"></div>
+        </div>
+
+        <button id="restartBtn" class="restart-btn">
+          <span>↺</span> RESTART
+        </button>
+
+        <button id="leaderboardToggle" class="leaderboard-toggle">
+          <span>▤</span> LEADERBOARD
+        </button>
+      </div>
+    </main>
+
+    <div id="leaderboardPanel" class="leaderboard-panel">
+      <div class="leaderboard-header">
+        <h2>LEADERBOARD</h2>
+        <button id="closeLeaderboard" class="close-leaderboard">×</button>
+      </div>
+      <div class="leaderboard-content">
+        <div class="lb-section">
+          <div class="lb-section-title">TOTAL WINS</div>
+          <div class="lb-stats">
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">PLAYER X</div>
+              <div class="lb-stat-value" id="lbWinsX">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">PLAYER O</div>
+              <div class="lb-stat-value" id="lbWinsO">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">DRAWS</div>
+              <div class="lb-stat-value" id="lbWinsDraw">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="lb-section">
+          <div class="lb-section-title">VS AI STATS</div>
+          <div class="lb-stats">
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">WINS</div>
+              <div class="lb-stat-value" id="lbAIWins">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">LOSSES</div>
+              <div class="lb-stat-value" id="lbAILosses">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">GAMES</div>
+              <div class="lb-stat-value" id="lbAIGames">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="lb-section">
+          <div class="lb-section-title">SESSION STATS</div>
+          <div class="lb-stats">
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">TOTAL</div>
+              <div class="lb-stat-value" id="lbTotalGames">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">X WINS</div>
+              <div class="lb-stat-value" id="lbSessionX">0</div>
+            </div>
+            <div class="lb-stat-box">
+              <div class="lb-stat-label">O WINS</div>
+              <div class="lb-stat-value" id="lbSessionO">0</div>
+            </div>
+          </div>
+        </div>
+        <button id="clearScores" class="clear-scores">Clear All Scores</button>
+      </div>
+    </div>
+
+    <div id="startScreen" class="overlay start-overlay">
+      <div class="overlay-frame">
+        <div class="corner-decor top-left"></div>
+        <div class="corner-decor top-right"></div>
+        <div class="corner-decor bottom-left"></div>
+        <div class="corner-decor bottom-right"></div>
+        <div class="overlay-content">
+          <h2 class="overlay-title glitch-text" data-text="INITIALIZE">INITIALIZE</h2>
+          <p class="overlay-subtitle">SELECT GAME MODE</p>
+          <div class="start-modes">
+            <button class="start-mode-btn" data-start-mode="pvp">
+              <span class="mode-icon">⬡</span>
+              <span class="mode-name">2-PLAYER</span>
+              <span class="mode-desc">Local battle</span>
+            </button>
+            <button class="start-mode-btn" data-start-mode="ai">
+              <span class="mode-icon">◈</span>
+              <span class="mode-name">VS AI</span>
+              <span class="mode-desc">Challenge the machine</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameOverScreen" class="overlay gameover-overlay hidden">
+      <div class="overlay-frame">
+        <div class="corner-decor top-left"></div>
+        <div class="corner-decor top-right"></div>
+        <div class="corner-decor bottom-left"></div>
+        <div class="corner-decor bottom-right"></div>
+        <div class="overlay-content">
+          <h2 id="winnerText" class="overlay-title winner-x">PLAYER X WINS</h2>
+          <p class="overlay-subtitle">GAME OVER</p>
+          <button id="newGameBtn" class="new-game-btn">
+            <span>◈</span> NEW GAME
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
